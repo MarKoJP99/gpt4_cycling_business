@@ -2,13 +2,29 @@
 
 {% block content %}
     <h1>Search Results</h1>
-    <table>
+    <table id="resultsTable">
         <thead>
             <tr>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Size</th>
+                <th>
+                    Product Name
+                    <input type="text" onkeyup="filterResults(0)" placeholder="Filter by product name...">
+                </th>
+                <th>
+                    Description
+                    <input type="text" onkeyup="filterResults(1)" placeholder="Filter by description...">
+                </th>
+                <th>
+                    Price
+                    <select id="priceOperator">
+                        <option value=">">&gt;</option>
+                        <option value="<">&lt;</option>
+                    </select>
+                    <input type="number" onkeyup="filterResults(2)" placeholder="Filter by price...">
+                </th>
+                <th>
+                    Size
+                    <input type="text" onkeyup="filterResults(3)" placeholder="Filter by size...">
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -23,4 +39,36 @@
         </tbody>
     </table>
     <a href="{{ url_for('back') }}">Back</a>
+
+    <script>
+        function filterResults(columnIndex) {
+            const table = document.getElementById("resultsTable");
+            const trs = table.getElementsByTagName("tr");
+            const input = table.getElementsByTagName("input")[columnIndex];
+            const filter = input.value.toUpperCase();
+
+            for (let i = 1; i < trs.length; i++) {
+                const td = trs[i].getElementsByTagName("td")[columnIndex];
+                if (td) {
+                    if (columnIndex === 2 && input.value) {
+                        const priceOperator = document.getElementById("priceOperator").value;
+                        const price = parseFloat(td.innerHTML);
+                        const inputValue = parseFloat(input.value);
+
+                        if ((priceOperator === ">" && price > inputValue) || (priceOperator === "<" && price < inputValue)) {
+                            trs[i].style.display = "";
+                        } else {
+                            trs[i].style.display = "none";
+                        }
+                    } else {
+                        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            trs[i].style.display = "";
+                        } else {
+                            trs[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 {% endblock %}

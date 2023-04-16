@@ -17,18 +17,20 @@ def update_database(filename):
             next(reader)  # skip header row
             for row in reader:
                 cur.execute(
-                    "INSERT INTO products (product_name, description, price, size) VALUES (?, ?, ?, ?)",
-                    (row[0], row[1], row[2], row[3]),
+                    "INSERT OR IGNORE INTO products (product_name, description, price, size) "
+                    "SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM products WHERE product_name = ? AND description = ?)",
+                    (row[0], row[1], row[2], row[3], row[0], row[1]),
                 )
         conn.commit()
     finally:
         conn.close()
 
-csv_file = "csv_sample.csv"
+
+
 
 # Run the script from the command line
 if len(sys.argv) > 1:
-    # csv_file = sys.argv[1]
+    csv_file = sys.argv[1]
     create_products_table()
     update_database(csv_file)
     print("Database updated successfully.")
