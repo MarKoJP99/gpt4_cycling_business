@@ -1,11 +1,12 @@
-product_name,description,price,size
-bike1,bike1 description,100,L
-bike2,bike2 description,200,M
-bike3,bike3 description,300,S
-bike4,bike4 description,400,XL
-bike5,bike5 description,500,L
-bike6,bike6 description,600,M
-bike7,bike7 description,700,S
-bike8,bike8 description,800,XL
-bike9,bike9 description,900,L
-bike10,bike10 description,1000,M
+product_name,description,price,size,weight
+bike1,bike1 description,100,L,7.3
+bike2,bike2 description,200,M,6
+bike3,bike3 description,300,S,10.4
+bike4,bike4 description,400,XL,11.5
+bike5,bike5 description,500,L,13
+bike6,bike6 description,600,M,12.3
+bike7,bike7 description,700,S,8.4
+bike8,bike8 description,800,XL,7.6
+bike9,bike9 description,900,L,9
+bike10,bike10 description,1000,M,6
+Bike Pinarello,f10 description,1000,M,6.2

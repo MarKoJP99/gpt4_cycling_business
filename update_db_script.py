@@ -12,20 +12,29 @@ def update_database(filename):
     conn = get_db()
     cur = conn.cursor()
     try:
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS products (
+                id INTEGER PRIMARY KEY,
+                product_name TEXT NOT NULL,
+                description TEXT NOT NULL,
+                price REAL NOT NULL,
+                size TEXT NOT NULL,
+                weight REAL NOT NULL
+            )
+        """)
         with open(filename, 'r') as f:
             reader = csv.reader(f)
             next(reader)  # skip header row
             for row in reader:
                 cur.execute(
-                    "INSERT OR IGNORE INTO products (product_name, description, price, size) "
-                    "SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM products WHERE product_name = ? AND description = ?)",
-                    (row[0], row[1], row[2], row[3], row[0], row[1]),
+                    "INSERT OR IGNORE INTO products (product_name, description, price, size, weight) "
+                    "SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM products WHERE product_name = ? AND description = ?)",
+                    (row[0], row[1], row[2], row[3], row[4], row[0], row[1])
                 )
+
         conn.commit()
     finally:
         conn.close()
-
-
 
 
 # Run the script from the command line
@@ -38,38 +47,3 @@ if len(sys.argv) > 1:
 else:
     print("Please provide a CSV file as an argument.")
 
-
-"""
-# using pandas create a csv file with the following data: product_name, description, price, size
-csv_sample = pd.DataFrame({'product_name': ['bike1', 'bike2', 'bike3', 'bike4', 'bike5', 'bike6', 'bike7', 'bike8', 'bike9', 'bike10'],
-                            'description': ['bike1 description', 'bike2 description', 'bike3 description', 'bike4 description', 'bike5 description', 'bike6 description', 'bike7 description', 'bike8 description', 'bike9 description', 'bike10 description'], 
-                            'price': [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
-                            'size': ['L', 'M', 'S', 'XL', 'L', 'M', 'S', 'XL', 'L', 'M']})
-csv_sample.to_csv('csv_sample.csv', index=False)
-
-
-# function for displaying the products in the database
-def display_products():
-    conn = get_db()
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM products")
-    rows = cur.fetchall()
-    conn.close()
-
-    print("ID | Product Name | Description | Price | Size")
-    print("----------------------------------------------")
-    for row in rows:
-        print(f"{row[0]} | {row[1]} | {row[2]} | {row[3]} | {row[4]}")
-
-
-# Display products before the update
-print("Before updating the database:")
-display_products()
-
-# Update the database
-update_database('csv_sample.csv')
-
-# Display products after the update
-print("\nAfter updating the database:")
-display_products()
-"""

@@ -25,6 +25,14 @@
                     Size
                     <input type="text" onkeyup="filterResults(3)" placeholder="Filter by size...">
                 </th>
+                <th>
+                    Weight
+                    <select id="weightOperator">
+                        <option value=">">&gt;</option>
+                        <option value="<">&lt;</option>
+                    </select>
+                    <input type="number" onkeyup="filterResults(4)" placeholder="Filter by Weight...">
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +42,7 @@
                     <td>{{ result[2] }}</td>
                     <td>{{ result[3] }}</td>
                     <td>{{ result[4] }}</td>
+                    <td>{{ result[5] }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -42,33 +51,34 @@
 
     <script>
         function filterResults(columnIndex) {
-            const table = document.getElementById("resultsTable");
-            const trs = table.getElementsByTagName("tr");
-            const input = table.getElementsByTagName("input")[columnIndex];
-            const filter = input.value.toUpperCase();
+                const table = document.getElementById("resultsTable");
+                const trs = table.getElementsByTagName("tr");
+                const input = table.getElementsByTagName("input")[columnIndex];
+                const filter = input.value.toUpperCase();
 
-            for (let i = 1; i < trs.length; i++) {
-                const td = trs[i].getElementsByTagName("td")[columnIndex];
-                if (td) {
-                    if (columnIndex === 2 && input.value) {
-                        const priceOperator = document.getElementById("priceOperator").value;
-                        const price = parseFloat(td.innerHTML);
-                        const inputValue = parseFloat(input.value);
+                for (let i = 1; i < trs.length; i++) {
+                    const tds = trs[i].getElementsByTagName("td");
+                    if (tds.length > 0) {
+                        if ((columnIndex === 2 || columnIndex === 4) && input.value) {
+                            const operator = (columnIndex === 2) ? document.getElementById("priceOperator").value : document.getElementById("weightOperator").value;
+                            const value = parseFloat(tds[columnIndex].innerHTML);
+                            const inputValue = parseFloat(input.value);
 
-                        if ((priceOperator === ">" && price > inputValue) || (priceOperator === "<" && price < inputValue)) {
-                            trs[i].style.display = "";
+                            if ((operator === ">" && value > inputValue) || (operator === "<" && value < inputValue)) {
+                                trs[i].style.display = "";
+                            } else {
+                                trs[i].style.display = "none";
+                            }
                         } else {
-                            trs[i].style.display = "none";
-                        }
-                    } else {
-                        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                            trs[i].style.display = "";
-                        } else {
-                            trs[i].style.display = "none";
+                            if (tds[columnIndex].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                trs[i].style.display = "";
+                            } else {
+                                trs[i].style.display = "none";
+                            }
                         }
                     }
                 }
             }
-        }
+
     </script>
 {% endblock %}

@@ -44,7 +44,8 @@ def create_products_table():
             product_name TEXT,
             description TEXT,
             price REAL,
-            size TEXT
+            size TEXT,
+            weight REAL
         )
     """)
     conn.commit()
