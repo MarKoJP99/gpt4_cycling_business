@@ -1,5 +1,8 @@
+-- removed the DROP TABLE IF EXISTS products as i 
+-- dont want to update the table each time i run upload 
+-- a new csv file
 
-DROP TABLE IF EXISTS products;
+-- DROP TABLE IF EXISTS products;
 
 CREATE TABLE products (
     id INTEGER PRIMARY KEY,
