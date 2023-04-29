@@ -1,10 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Cycling Shop</h1>
-    <form method="POST">
-        <label for="search">Search:</label>
-        <input type="text" name="search" required>
-        <button type="submit">Search</button>
-    </form>
+    <h1>Pro Cycling Marketplace</h1>
+    <p>Welcome to the Pro Cycling Marketplace, your one-stop-shop for high-quality cycling products. We offer a wide range of wheels, framesets, and components to enhance your cycling experience. Browse our collection by selecting a product category below.</p>
+    
+    <div class="product-categories">
+        <div class="category">
+            <a href="{{ url_for('wheels') }}">
+                <img src="{{ url_for('static', filename='img/wheels.jpg') }}" alt="Wheels" width="200" height="200">
+                <h2>Wheels</h2>
+            </a>
+        </div>
+        <!-- Add more categories here as needed -->
+        <div class="category">
+            <a href="{{ url_for('frame_sets') }}">
+                <img src="{{ url_for('static', filename='img/frameset.png') }}" alt="Frame Sets" width="200" height="200">
+                <h2>Frame Sets</h2>
+            </a>
+        </div>
+        <div class="category">
+            <a href="{{ url_for('components') }}">
+                <img src="{{ url_for('static', filename='img/components.jpg') }}" alt="Components" width="200" height="200">
+                <h2>Components</h2>
+            </a>
+        </div>
+    </div>
 {% endblock %}

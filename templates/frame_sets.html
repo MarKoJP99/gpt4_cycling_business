@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Frame Sets</h1>
+    <p>Discover our collection of top-notch frame sets to build the bike of your dreams.</p>
+    <form method="POST" action="{{ url_for('results', product_type='frame_sets') }}">
+        <label for="search">Search:</label>
+        <input type="text" name="search" required>
+        <button type="submit">Search</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Search Results</h1>
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                    <input type="text" onkeyup="filterResults(0)" placeholder="Filter by product name...">
+                </th>
+                <th>
+                    Description
+                    <input type="text" onkeyup="filterResults(1)" placeholder="Filter by description...">
+                </th>
+                <th>
+                    Price
+                    <select id="priceOperator">
+                        <option value=">">&gt;</option>
+                        <option value="<">&lt;</option>
+                    </select>
+                    <input type="number" onkeyup="filterResults(2)" placeholder="Filter by price...">
+                </th>
+                <th>
+                    Size
+                    <input type="text" onkeyup="filterResults(3)" placeholder="Filter by size...">
+                </th>
+                <th>
+                    Weight
+                    <select id="weightOperator">
+                        <option value=">">&gt;</option>
+                        <option value="<">&lt;</option>
+                    </select>
+                    <input type="number" onkeyup="filterResults(4)" placeholder="Filter by Weight...">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>{{ result[1] }}</td>
+                    <td>{{ result[2] }}</td>
+                    <td>{{ result[3] }}</td>
+                    <td>{{ result[4] }}</td>
+                    <td>{{ result[5] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('back') }}">Back</a>
+
+    <script>
+        function filterResults(columnIndex) {
+                const table = document.getElementById("resultsTable");
+                const trs = table.getElementsByTagName("tr");
+                const input = table.getElementsByTagName("input")[columnIndex];
+                const filter = input.value.toUpperCase();
+
+                for (let i = 1; i < trs.length; i++) {
+                    const tds = trs[i].getElementsByTagName("td");
+                    if (tds.length > 0) {
+                        if ((columnIndex === 2 || columnIndex === 4) && input.value) {
+                            const operator = (columnIndex === 2) ? document.getElementById("priceOperator").value : document.getElementById("weightOperator").value;
+                            const value = parseFloat(tds[columnIndex].innerHTML);
+                            const inputValue = parseFloat(input.value);
+
+                            if ((operator === ">" && value > inputValue) || (operator === "<" && value < inputValue)) {
+                                trs[i].style.display = "";
+                            } else {
+                                trs[i].style.display = "none";
+                            }
+                        } else {
+                            if (tds[columnIndex].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                trs[i].style.display = "";
+                            } else {
+                                trs[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
+            }
+
+    </script>
+{% endblock %}

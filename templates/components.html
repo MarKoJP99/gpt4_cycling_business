@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Components</h1>
+    <p>Upgrade your bike with our wide range of high-quality components for a better performance.</p>
+    <form method="POST" action="{{ url_for('results', product_type='components') }}">
+        <label for="search">Search:</label>
+        <input type="text" name="search" required>
+        <button type="submit">Search</button>
+    </form>
+{% endblock %}
