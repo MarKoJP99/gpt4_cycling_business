@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect
-from db import search_products, init_db
+from db import init_db, search_wheels
 
 app = Flask(__name__)
 
@@ -11,25 +11,25 @@ def home():
 def wheels():
     return render_template("wheels.html")
 
-@app.route("/frame_sets")
-def frame_sets():
-    return render_template("frame_sets.html")
+@app.route("/framesets")
+def framesets():
+    return render_template("framesets.html")
 
 @app.route("/components")
 def components():
     return render_template("components.html")
 
-@app.route("/results/<product_type>", methods=["GET", "POST"])
-def results(product_type):
-    if request.method == "POST":
-        search_query = request.form["search"]
-        results = search_products(product_type, search_query)  # Update your search_products function to handle product_type
-        return render_template(f"results_{product_type}.html", results=results)
-    return redirect(url_for("home"))
-
 @app.route("/back")
 def back():
     return redirect(url_for("home"))
+
+@app.route("/results_wheels", methods=["GET", "POST"])
+def results_wheels():
+    if request.method == "POST":
+        search_query = request.form["search"]
+        results = search_wheels(search_query)
+        return render_template("results_wheels.html", results=results)
+    return redirect(url_for("wheels"))
 
 if __name__ == "__main__":
     init_db(app)

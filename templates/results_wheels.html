@@ -1,84 +1,84 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Search Results</h1>
-    <table id="resultsTable">
-        <thead>
+<!-- Add the code for the results_wheels.html template based on the following fields:
+brand, model_name, package_set, brake_type, tyres_type, weight_set, 
+weight_front, weight_rear, rim_depth, rim_internal_width, 
+rim_external_width, rim_material, sproks_material_front, 
+sproks_material_rear, hub_material_front, hub_material_rear, 
+bearings_type, suggested_price_euro, url_maker, url_shop, 
+item_component, item_price, discount, colour, edition
+-->
+    <h1>Wheels Search Results</h1>
+
+    <table>
+        <tr>
+            <!-- set the fields: brand, model_name, package_set, 
+                brake_type, tyres_type, weight_set, 
+weight_front, weight_rear, rim_depth, rim_internal_width, 
+rim_external_width, rim_material, sproks_material_front, 
+sproks_material_rear, hub_material_front, hub_material_rear, 
+bearings_type, suggested_price_euro, url_maker, url_shop, 
+item_component, item_price, discount, colour, edition -->
+            <th>Brand</th>
+            <th>Model Name</th>
+            <th>Package Set</th>
+            <th>Brake Type</th>
+            <th>Tyres Type</th>
+            <th> Weight Set </th>
+            <th> Weight Front </th>
+            <th> Weight Rear </th>
+            <th> Rim Depth </th>
+            <th> Rim Internal Width </th>
+            <th> Rim External Width </th>
+            <th> Rim Material </th>
+            <th> Sproks Material Front </th>
+            <th> Sproks Material Rear </th>
+            <th> Hub Material Front </th>
+            <th> Hub Material Rear </th>
+            <th> Bearings Type </th>
+            <th> Suggested Price Euro </th>
+            <th> URL Maker </th>
+            <th> URL Shop </th>
+            <th> Item Component </th>
+            <th> Item Price </th>
+            <th> Discount on Shop</th>
+            <th> Colour </th>
+            <th> Edition </th>
+        </tr>
+        {% for wheel in results %}
+        <!-- here we are setting  -->
             <tr>
-                <th>
-                    Product Name
-                    <input type="text" onkeyup="filterResults(0)" placeholder="Filter by product name...">
-                </th>
-                <th>
-                    Description
-                    <input type="text" onkeyup="filterResults(1)" placeholder="Filter by description...">
-                </th>
-                <th>
-                    Price
-                    <select id="priceOperator">
-                        <option value=">">&gt;</option>
-                        <option value="<">&lt;</option>
-                    </select>
-                    <input type="number" onkeyup="filterResults(2)" placeholder="Filter by price...">
-                </th>
-                <th>
-                    Size
-                    <input type="text" onkeyup="filterResults(3)" placeholder="Filter by size...">
-                </th>
-                <th>
-                    Weight
-                    <select id="weightOperator">
-                        <option value=">">&gt;</option>
-                        <option value="<">&lt;</option>
-                    </select>
-                    <input type="number" onkeyup="filterResults(4)" placeholder="Filter by Weight...">
-                </th>
+                <td>{{ wheel[1] }}</td>
+                <td>{{ wheel[2] }}</td>
+                <td>{{ wheel[3] }}</td>
+                <td>{{ wheel[4] }}</td>
+                <td>{{ wheel[5] }}</td>
+                <td>{{ wheel[6] }}</td>
+                <td>{{ wheel[7] }}</td>
+                <td>{{ wheel[8] }}</td>
+                <td>{{ wheel[9] }}</td>
+                <td>{{ wheel[10] }}</td>
+                <td>{{ wheel[11] }}</td>
+                <td>{{ wheel[12] }}</td>
+                <td>{{ wheel[13] }}</td>
+                <td>{{ wheel[14] }}</td>
+                <td>{{ wheel[15] }}</td>
+                <td>{{ wheel[16] }}</td>
+                <td>{{ wheel[17] }}</td>
+                <td>{{ wheel[18] }}</td>
+                <td>{{ wheel[19] }}</td>
+                <td>{{ wheel[20] }}</td>
+                <td>{{ wheel[21] }}</td>
+                <td>{{ wheel[22] }}</td>
+                <td>{{ wheel[23] }}</td>
+                <td>{{ wheel[24] }}</td>
+                <td>{{ wheel[25] }}</td>
+                <td>{{ wheel[26] }}</td>
+
             </tr>
-        </thead>
-        <tbody>
-            {% for result in results %}
-                <tr>
-                    <td>{{ result[1] }}</td>
-                    <td>{{ result[2] }}</td>
-                    <td>{{ result[3] }}</td>
-                    <td>{{ result[4] }}</td>
-                    <td>{{ result[5] }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
+        {% endfor %}
     </table>
+
     <a href="{{ url_for('back') }}">Back</a>
-
-    <script>
-        function filterResults(columnIndex) {
-                const table = document.getElementById("resultsTable");
-                const trs = table.getElementsByTagName("tr");
-                const input = table.getElementsByTagName("input")[columnIndex];
-                const filter = input.value.toUpperCase();
-
-                for (let i = 1; i < trs.length; i++) {
-                    const tds = trs[i].getElementsByTagName("td");
-                    if (tds.length > 0) {
-                        if ((columnIndex === 2 || columnIndex === 4) && input.value) {
-                            const operator = (columnIndex === 2) ? document.getElementById("priceOperator").value : document.getElementById("weightOperator").value;
-                            const value = parseFloat(tds[columnIndex].innerHTML);
-                            const inputValue = parseFloat(input.value);
-
-                            if ((operator === ">" && value > inputValue) || (operator === "<" && value < inputValue)) {
-                                trs[i].style.display = "";
-                            } else {
-                                trs[i].style.display = "none";
-                            }
-                        } else {
-                            if (tds[columnIndex].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                                trs[i].style.display = "";
-                            } else {
-                                trs[i].style.display = "none";
-                            }
-                        }
-                    }
-                }
-            }
-
-    </script>
 {% endblock %}
